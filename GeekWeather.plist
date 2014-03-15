@@ -7,10 +7,10 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/alex/Documents/Programming/Scripts/GeekWeather2/GeekWeather2.sh</string>
+    <string>/Users/alex/Developer/Scripts/GeekWeather2/GeekWeather2.sh</string>
     <string>40.410259</string>
     <string>-74.035055</string>
-    <string>"Atlantic Highlands"</string>
+    <string>"AtlanticHighlands"</string>
     <string>LIGHT</string>
   </array>
 
