@@ -2,38 +2,25 @@
 
 export PATH=/usr/local/bin:$PATH
 
-# echo "Starting: " `date`
-# echo "******************"
-# ps -ef | grep $PPID
-
 test $# -ne 4 && echo "Usage: `basename $0` LAT LON NAME LIGHT/DARK" && exit $E_BADARGS
 
-hash /usr/local/bin/gs &> /dev/null
+hash /usr/local/bin/webkit2png &> /dev/null
 if [ $? -eq 1 ]; then
-    echo "GhostScript not found."
-    exit 1
-fi
-
-hash /usr/local/bin/wkhtmltoimage &> /dev/null
-if [ $? -eq 1 ]; then
-    echo "wkhtmltoimage not found."
+    echo "WebKit2Png not found."
+	echo "brew install webkit2png"
     exit 1
 fi
 
 hash /usr/local/bin/convert &> /dev/null
 if [ $? -eq 1 ]; then
     echo "ImageMagick not found."
+	echo "brew install imagemagick"
     exit 1
 fi
 
-export LIGHT=""
-
-if [[ $4 == "LIGHT" ]]; then
-    export LIGHT="-negate"
-elif [[ $4 == "DARK" ]]; then
-    echo ""
-else 
+if [[ $4 =~ !(LIGHT|DARK) ]] ; then
     echo "Arg 4 must be one of LIGHT or DARK"
+	echo $4
     exit $E_BADARGS
 fi
 
