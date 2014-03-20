@@ -43,12 +43,10 @@ Then, point an image geeklet at /tmp/GeekWeather.png
 License
 ----
 
-MIT
+Don't care.
 
 
-**Free Software, Hell Yeah!**
-
-[GeekTool]:http://projects.tynsoe.org/en/geektool/t/
+[GeekTool]:http://projects.tynsoe.org/en/geektool/
 [ForeCast]:http://forecast.io/
 
 
