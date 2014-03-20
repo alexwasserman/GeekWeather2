@@ -39,6 +39,11 @@ Drop that into ~/Library/LaunchAgents
 
 Then, point an image geeklet at /tmp/GeekWeather.png
 
+NB
+__
+
+Webkit2Png uses Python, and on OSX when it runs it'll put an icon in the dock. To suppress the Python icon follow these [steps].
+
 
 License
 ----
@@ -48,6 +53,6 @@ Don't care.
 
 [GeekTool]:http://projects.tynsoe.org/en/geektool/
 [ForeCast]:http://forecast.io/
-
+[steps]:http://stackoverflow.com/questions/13865826/get-rid-of-the-python-launcher-icon-os-x
 
     
