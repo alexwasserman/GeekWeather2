@@ -4,7 +4,7 @@ GeekWeather 2
 GeekWeather is a geeklet for [Geektool] that shows the [ForeCast] weather on your desktop. LIGHT is a lighter image for use on darker desktops, DARK is a darker image for use on lighter desktops. LAT and LON are the coordinates of the location you want the weather report for.
 
 *Requirements*
-  - WebKit2Png  ```brew install webkit2ping```
+  - WebKit2Png  ```brew install webkit2png```
   - ImageMagick ```brew install imagemagick```
 
 Version
