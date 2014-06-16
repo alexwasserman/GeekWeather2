@@ -18,6 +18,7 @@ GeekWeather uses:
 
 * WebKit2Png: Converts the  webpage to a PNG
 * ImageMagick: Image convertion
+* ForeCast [API]
 
 Script usage
 --------------
@@ -48,11 +49,12 @@ Webkit2Png uses Python, and on OSX when it runs it'll put an icon in the dock. T
 License
 ----
 
-Don't care.
+MIT.
 
 
 [GeekTool]:http://projects.tynsoe.org/en/geektool/
 [ForeCast]:http://forecast.io/
+[API]: https://developer.forecast.io/
 [steps]:http://stackoverflow.com/questions/13865826/get-rid-of-the-python-launcher-icon-os-x
 
     
