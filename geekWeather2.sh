@@ -31,7 +31,7 @@ export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME'
 export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$1/" -e "s/\$LON/$2/" -e "s/\$NAME/$3/")
 
 echo "Converting to image"
-webkit2png --width=300 --height=150 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
+webkit2png --width=500 --clipwidth=500 --height=245 --scale=1 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
 
 echo "Running image smoothing"
 if [[ $4 == "LIGHT" ]]; then
