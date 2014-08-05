@@ -2,7 +2,7 @@
 
 export PATH=/usr/local/bin:$PATH
 
-test $# -ne 4 && echo "Usage: `basename $0` LAT LON NAME UNITS FONT COLOR" && exit $E_BADARGS
+test $# -ne 6 && echo "Usage: `basename $0` LAT LON NAME UNITS FONT LIGHT/DARK" && exit $E_BADARGS
 
 hash /usr/local/bin/webkit2png &> /dev/null
 if [ $? -eq 1 ]; then
@@ -24,8 +24,8 @@ if [[ $4 =~ !(ca|si|uk|us|) ]] ; then
     exit $E_BADARGS
 fi
 
-if [[ $6 =~ ~#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}) ]] ; then
-    echo "Arg 5 must be a hexadecimal color starting with #"
+if [[ $6 =~ !(LIGHT|DARK) ]] ; then
+    echo "Arg 6 must be either LIGHT or DARK"
     echo $6
     exit $E_BADARGS
 fi
@@ -39,7 +39,12 @@ export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$1/" -e "s/\$LON/$2/" -e "s/\$
 echo "Converting to image"
 webkit2png --width=500 --clipwidth=500 --height=245 --scale=1 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
 
-echo "Moving image"
-mv /tmp/tmpWeather-full.png /tmp/GeekWeather.png
+echo "Running image smoothing"
+if [[ $6 == "LIGHT" ]]; then
+    convert -quiet -negate png:/tmp/tmpWeather-full.png png:/tmp/GeekWeather.png
+    rm /tmp/tmpWeather-full.png
+elif [[ $6 == "DARK" ]]; then
+    mv /tmp/tmpWeather-full.png /tmp/GeekWeather.png
+fi
 
 exit 0
