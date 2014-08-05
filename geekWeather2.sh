@@ -32,9 +32,9 @@ fi
 
 cd `dirname $0`
 
-export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS&color=$COLOR'
+export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS'
 
-export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$1/" -e "s/\$LON/$2/" -e "s/\$NAME/$3/" -e "s/\$FONT/$4/" -e "s/\$UNITS/$5/" -e "s/\$COLOR/$6/")
+export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$1/" -e "s/\$LON/$2/" -e "s/\$NAME/$3/" -e "s/\$FONT/$4/" -e "s/\$UNITS/$5/" )
 
 echo "Converting to image"
 webkit2png --width=500 --clipwidth=500 --height=245 --scale=1 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
