@@ -37,6 +37,17 @@ OPTIONS:
    -h      	Show this message and exit.
 ```
 
+Example
+-------
+```sh
+alex@Smiley:~/Developer/Scripts/GeekWeather2|master
+⇒  ./geekWeather2.sh -A 40.410259 -O -74.035 -n AtlanticHighlands -d DARK -u SI -f Garamond -z 2
+Converting to image
+Fetching http://forecast.io/embed/#lat=40.410259&lon=-74.035&name=AtlanticHighlands&font=Garamond&units=SI ...
+ ... done
+Running image smoothing
+```
+
 GeekTool
 --------
 
