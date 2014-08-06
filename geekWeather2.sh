@@ -1,8 +1,91 @@
 #!/bin/bash
+set -o nounset
+set -o errexit
 
 export PATH=/usr/local/bin:$PATH
 
-test $# -ne 6 && echo "Usage: `basename $0` LAT LON NAME UNITS FONT LIGHT/DARK" && exit $E_BADARGS
+usage()
+{
+cat << usage
+USAGE: $0 -A LAT -O LON [-n NAME] [-d LIGHT/DARK] [-u units] [-f font] [-h help]
+
+OPTIONS:
+   -A		Coordinates: LAT
+   -O		Coordinates: LON
+   -n		Name. One word. Defaults to GeekWeather
+   -d		Dark or Light output. Default: LIGHT
+   -u      	Units: US is the default, or pick: US UK SI CA. Default: US [optional]
+   -f      	Font: Set a font to use. Default: Helvetica [optional]
+   -h      	Show this message and exit.
+usage
+}
+
+# Set defaults
+UNITS="US"
+FONT="Helvetica"
+HUE="LIGHT"
+NAME="GeekWeather"
+E_BADARGS=1
+
+# Check we have at least 4 args
+if [[ $# -lt 4 ]]; then
+    usage
+    exit $E_BADARGS
+fi
+
+A_FLAG=0
+O_FLAG=0
+
+# Process args
+while getopts ":A:O:n:d:u:f:h" OPTION;
+do
+     case $OPTION in
+ 	    A)
+ 	     	LAT=$OPTARG
+			A_FLAG=1
+ 	     	;;
+		O)
+	     	LON=$OPTARG
+			O_FLAG=1
+	     	;;			
+		n)
+		 	NAME=$OPTARG
+			;;
+		d)
+			HUE=$OPTARG
+			;;
+        u)
+            UNITS=$OPTARG
+            ;;
+        f)
+            FONT=$OPTARG
+            ;;
+	    h)
+	        usage
+	        exit 1
+	        ;;
+        \?)
+			echo "ERROR:"
+			echo "    -$OPTARG is not an option"
+			echo ""
+            usage
+            exit $E_BADARGS
+            ;;
+		:)
+			echo "ERROR:"
+			echo "    -$OPTARG requires an argument"
+			echo ""
+			usage
+			exit $E_BADARGS
+			;;
+     esac
+done
+
+if [[ $A_FLAG == 0 || $O_FLAG == 0 ]];
+then
+    usage
+    exit $E_BADARGS
+fi
 
 hash /usr/local/bin/webkit2png &> /dev/null
 if [ $? -eq 1 ]; then
@@ -18,15 +101,27 @@ echo "brew install imagemagick"
     exit 1
 fi
 
-if [[ $4 =~ !(ca|si|uk|us|) ]] ; then
-    echo "Arg 4 must be either ca, si, us, or uk"
-    echo $4
+if [[ ! ( $NAME =~ (^[a-zA-Z0-9]+$) ) ]] ; then
+	echo "Error"
+	echo "    $NAME is not an allowed name"
+	echo ""
+	usage
     exit $E_BADARGS
 fi
 
-if [[ $6 =~ !(LIGHT|DARK) ]] ; then
-    echo "Arg 6 must be either LIGHT or DARK"
-    echo $6
+if [[ ! ( $UNITS =~ [CA|SI|UK|US] ) ]] ; then
+	echo "Error"
+	echo "    $UNITS is not allowed set of units"
+	echo ""
+	usage
+    exit $E_BADARGS
+fi
+
+if [[ ( $HUE =~ [^LIGHT$|^DARK$] ) ]] ; then
+	echo "Error"
+	echo "    $HUE is not allowed output choice"
+	echo ""
+    usage
     exit $E_BADARGS
 fi
 
@@ -34,16 +129,16 @@ cd `dirname $0`
 
 export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS'
 
-export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$1/" -e "s/\$LON/$2/" -e "s/\$NAME/$3/" -e "s/\$UNITS/$4/" -e "s/\$FONT/$5/")
+export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$LAT/" -e "s/\$LON/$LON/" -e "s/\$NAME/$NAME/" -e "s/\$UNITS/$UNITS/" -e "s/\$FONT/$FONT/")
 
 echo "Converting to image"
-webkit2png -z 2 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
+webkit2png --width=400 --clipwidth=400 --height=245 --scale=1 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
 
 echo "Running image smoothing"
-if [[ $6 == "LIGHT" ]]; then
+if [[ $HUE == "LIGHT" ]]; then
     convert -quiet -negate -modulate 150 png:/tmp/tmpWeather-full.png png:/tmp/GeekWeather.png
     rm /tmp/tmpWeather-full.png
-elif [[ $6 == "DARK" ]]; then
+elif [[ $HUE == "DARK" ]]; then
     mv /tmp/tmpWeather-full.png /tmp/GeekWeather.png
 fi
 
