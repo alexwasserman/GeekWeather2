@@ -7,7 +7,7 @@ export PATH=/usr/local/bin:$PATH
 usage()
 {
 cat << usage
-USAGE: $0 -A LAT -O LON [-n NAME] [-d LIGHT/DARK] [-u units] [-f font] [-h help]
+USAGE: $0 -A LAT -O LON [-n NAME] [-d LIGHT/DARK] [-u units] [-f font] [-z zoom ] [-h help]
 
 OPTIONS:
    -A		Coordinates: LAT
@@ -16,6 +16,7 @@ OPTIONS:
    -d		Dark or Light output. Default: LIGHT
    -u      	Units: US is the default, or pick: US UK SI CA. Default: US [optional]
    -f      	Font: Set a font to use. Default: Helvetica [optional]
+   -z 		Zoom: 2 will double the output image. Default: 1 [optional]
    -h      	Show this message and exit.
 usage
 }
@@ -26,6 +27,7 @@ FONT="Helvetica"
 HUE="LIGHT"
 NAME="GeekWeather"
 E_BADARGS=1
+ZOOM=1
 
 # Check we have at least 4 args
 if [[ $# -lt 4 ]]; then
@@ -37,7 +39,7 @@ A_FLAG=0
 O_FLAG=0
 
 # Process args
-while getopts ":A:O:n:d:u:f:h" OPTION;
+while getopts ":A:O:n:d:u:f:hz:" OPTION;
 do
      case $OPTION in
  	    A)
@@ -60,6 +62,9 @@ do
         f)
             FONT=$OPTARG
             ;;
+	    z)
+	        ZOOM=$OPTARG
+	        ;;
 	    h)
 	        usage
 	        exit 1
@@ -117,6 +122,14 @@ if [[ ! ( $UNITS =~ [CA|SI|UK|US] ) ]] ; then
     exit $E_BADARGS
 fi
 
+if [[ ! ( $ZOOM =~ [1-4] ) ]] ; then
+	echo "Error"
+	echo "    $ZOOM is not allowed zoom size: 1-4"
+	echo ""
+    usage
+    exit $E_BADARGS
+fi
+
 if [[ ( $HUE =~ [^LIGHT$|^DARK$] ) ]] ; then
 	echo "Error"
 	echo "    $HUE is not allowed output choice"
@@ -132,7 +145,7 @@ export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font
 export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$LAT/" -e "s/\$LON/$LON/" -e "s/\$NAME/$NAME/" -e "s/\$UNITS/$UNITS/" -e "s/\$FONT/$FONT/")
 
 echo "Converting to image"
-webkit2png --width=400 --clipwidth=400 --height=245 --scale=1 -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
+webkit2png --width=400 --clipwidth=400 --height=245 --scale=1 -z $ZOOM -F --transparent --delay=5 -o tmpWeather -D /tmp $URL
 
 echo "Running image smoothing"
 if [[ $HUE == "LIGHT" ]]; then
