@@ -155,4 +155,6 @@ elif [[ $HUE == "DARK" ]]; then
     mv /tmp/tmpWeather-full.png /tmp/GeekWeather.png
 fi
 
+echo "Completed"
+
 exit 0
