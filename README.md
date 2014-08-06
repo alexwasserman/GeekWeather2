@@ -24,9 +24,17 @@ Script usage
 --------------
 
 ```sh
-$./geekWeather2.sh
-Usage: geekWeather2.sh LAT LON NAME LIGHT/DARK
-$./geekWeather2.sh 40.4118 74.0198 AtlHighlands LIGHT
+USAGE: ./geekWeather2.sh -A LAT -O LON [-n NAME] [-d LIGHT/DARK] [-u units] [-f font] [-z zoom ] [-h help]
+
+OPTIONS:
+   -A		Coordinates: LAT
+   -O		Coordinates: LON
+   -n		Name. One word. Defaults to GeekWeather
+   -d		Dark or Light output. Default: LIGHT
+   -u      	Units: US is the default, or pick: US UK SI CA. Default: US [optional]
+   -f      	Font: Set a font to use. Default: Helvetica [optional]
+   -z 		Zoom: Defaults to 1. 2 will double the output image.
+   -h      	Show this message and exit.
 ```
 
 GeekTool
