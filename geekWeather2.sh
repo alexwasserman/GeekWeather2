@@ -106,7 +106,7 @@ echo "brew install imagemagick"
     exit 1
 fi
 
-if [[ ! ( $NAME =~ (^[a-zA-Z0-9]+$) ) ]] ; then
+if [[ ! ( $NAME =~ (^[a-zA-Z0-9\_\ ]+$) ) ]] ; then
 	echo "Error"
 	echo "    $NAME is not an allowed name"
 	echo ""
@@ -139,7 +139,8 @@ if [[ ( $HUE =~ [^LIGHT$|^DARK$] ) ]] ; then
 fi
 
 cd `dirname $0`
-
+export Space="%20"
+export NAME="${NAME/ /$Space}"
 export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS'
 
 export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$LAT/" -e "s/\$LON/$LON/" -e "s/\$NAME/$NAME/" -e "s/\$UNITS/$UNITS/" -e "s/\$FONT/$FONT/")
