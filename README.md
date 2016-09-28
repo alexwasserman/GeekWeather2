@@ -1,7 +1,9 @@
 GeekWeather 2
 =============
 
-GeekWeather is a geeklet for [Geektool] that shows the [ForeCast] weather on your desktop. LIGHT is a lighter image for use on darker desktops, DARK is a darker image for use on lighter desktops. LAT and LON are the coordinates of the location you want the weather report for.
+GeekWeather is a geeklet for [Geektool] that shows the [DarkSky] weather on your desktop. LIGHT is a lighter image for use on darker desktops, DARK is a darker image for use on lighter desktops. LAT and LON are the coordinates of the location you want the weather report for.
+
+[Powered By DarkSky]
 
 *Requirements*
   - WebKit2Png  ```brew install webkit2png```
@@ -72,8 +74,9 @@ MIT.
 
 
 [GeekTool]:http://projects.tynsoe.org/en/geektool/
-[ForeCast]:http://forecast.io/
+[DarkSky]:http://darksky.net/
 [API]: https://developer.forecast.io/
 [steps]:http://stackoverflow.com/questions/13865826/get-rid-of-the-python-launcher-icon-os-x
+[Powered by DarkSky]:https://darksky.net/poweredby/
 
     
