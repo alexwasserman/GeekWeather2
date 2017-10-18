@@ -141,7 +141,7 @@ fi
 cd `dirname $0`
 export Space="%20"
 export NAME="${NAME// /$Space}"
-export TEMPLATE_URL='http://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS'
+export TEMPLATE_URL='https://forecast.io/embed/#lat=$LAT&lon=$LON&name=$NAME&font=$FONT&units=$UNITS'
 
 export URL=$(echo $TEMPLATE_URL | sed -e "s/\$LAT/$LAT/" -e "s/\$LON/$LON/" -e "s/\$NAME/$NAME/" -e "s/\$UNITS/$UNITS/" -e "s/\$FONT/$FONT/")
 
